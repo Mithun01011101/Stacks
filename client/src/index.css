@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom HabitFlow colors */
+  --habit-purple: hsl(267, 84%, 64%);
+  --habit-indigo: hsl(238, 84%, 67%);
+  --habit-emerald: hsl(158, 64%, 52%);
+  --habit-amber: hsl(43, 96%, 56%);
+  --habit-red: hsl(0, 84%, 60%);
+  --pastel-purple: hsl(270, 100%, 96%);
+  --pastel-indigo: hsl(235, 100%, 94%);
+  --pastel-emerald: hsl(149, 80%, 90%);
+  --pastel-amber: hsl(48, 96%, 89%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-gray-50 text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@layer components {
+  .habit-purple {
+    color: var(--habit-purple);
+  }
+  
+  .habit-indigo {
+    color: var(--habit-indigo);
+  }
+  
+  .habit-emerald {
+    color: var(--habit-emerald);
+  }
+  
+  .habit-amber {
+    color: var(--habit-amber);
+  }
+  
+  .bg-habit-purple {
+    background-color: var(--habit-purple);
+  }
+  
+  .bg-habit-indigo {
+    background-color: var(--habit-indigo);
+  }
+  
+  .bg-habit-emerald {
+    background-color: var(--habit-emerald);
+  }
+  
+  .bg-habit-amber {
+    background-color: var(--habit-amber);
+  }
+  
+  .bg-pastel-purple {
+    background-color: var(--pastel-purple);
+  }
+  
+  .bg-pastel-indigo {
+    background-color: var(--pastel-indigo);
+  }
+  
+  .bg-pastel-emerald {
+    background-color: var(--pastel-emerald);
+  }
+  
+  .bg-pastel-amber {
+    background-color: var(--pastel-amber);
+  }
+  
+  .border-habit-purple {
+    border-color: var(--habit-purple);
+  }
+  
+  .border-habit-indigo {
+    border-color: var(--habit-indigo);
+  }
+  
+  .border-habit-emerald {
+    border-color: var(--habit-emerald);
+  }
+  
+  .border-habit-amber {
+    border-color: var(--habit-amber);
+  }
+
+  .text-habit-purple {
+    color: var(--habit-purple);
+  }
+  
+  .text-habit-indigo {
+    color: var(--habit-indigo);
+  }
+  
+  .text-habit-emerald {
+    color: var(--habit-emerald);
+  }
+  
+  .text-habit-amber {
+    color: var(--habit-amber);
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: -moz-scrollbars-none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  /* Smooth drag scrolling */
+  .drag-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .drag-scroll:active {
+    cursor: grabbing;
+  }
+  
+  .animate-bounce-subtle {
+    animation: bounce-subtle 0.3s ease-in-out;
+  }
+
+  .animate-ripple {
+    animation: ripple 0.6s ease-out forwards;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-slide-in {
+    animation: slide-in 0.5s ease-out;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px hsl(267, 84%, 64%, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px hsl(267, 84%, 64%, 0.8);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .overflow-x-auto {
+    scroll-snap-type: x mandatory;
+  }
+  
+  .flex-shrink-0 {
+    scroll-snap-align: start;
+  }
+}
