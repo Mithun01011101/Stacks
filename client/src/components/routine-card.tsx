@@ -38,7 +38,7 @@ export function RoutineCard({
   };
 
   const getProgressColor = () => {
-    return routine.progress.completed > 0 ? 'text-habit-emerald' : 'text-gray-400';
+    return routine.progress.completed > 0 ? 'text-habit-emerald' : 'text-gray-400 dark:text-gray-500';
   };
 
   const getNextIncompleteHabit = () => {
@@ -58,13 +58,13 @@ export function RoutineCard({
               <i className={`${routine.icon} text-white`}></i>
             </div>
             <div>
-              <h4 className="text-xl font-bold text-gray-900">{routine.title}</h4>
-              <p className="text-gray-600 text-sm">{routine.description}</p>
+              <h4 className="text-xl font-bold text-gray-900 dark:text-gray-50">{routine.title}</h4>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">{routine.description}</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <div className="text-right">
-              <p className="text-sm text-gray-600">Progress</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Progress</p>
               <p className={`text-lg font-semibold ${getProgressColor()}`}>
                 {routine.progress.completed}/{routine.progress.total} complete
               </p>
@@ -78,7 +78,7 @@ export function RoutineCard({
               <DropdownMenuContent align="end">
                 <DropdownMenuItem 
                   onClick={() => onDeleteRoutine?.(routine.id)}
-                  className="text-red-600 hover:text-red-700 focus:text-red-700"
+                  className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 focus:text-red-700 dark:focus:text-red-300"
                 >
                   <Trash2 size={14} className="mr-2" />
                   Delete Stack
@@ -99,14 +99,14 @@ export function RoutineCard({
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-habit-emerald rounded-full"></div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-400">
                 {routine.progress.completed} completed
               </span>
             </div>
             {routine.progress.total - routine.progress.completed > 0 && (
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-                <span className="text-sm text-gray-600">
+                <div className="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   {routine.progress.total - routine.progress.completed} remaining
                 </span>
               </div>
@@ -118,7 +118,7 @@ export function RoutineCard({
               🎉 All Complete!
             </div>
           ) : (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
               Hold any habit to complete it
             </div>
           )}

@@ -92,31 +92,31 @@ export function HabitBlock({
 
   const colorClasses = {
     'habit-purple': {
-      bg: isCompleted ? 'bg-gradient-to-br from-pastel-purple to-purple-50 border-habit-purple' : 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-300 border-dashed',
-      text: isCompleted ? 'text-gray-800' : 'text-gray-600',
-      status: isCompleted ? 'bg-habit-purple text-white' : 'bg-gray-300 text-white',
-      statusBg: isCompleted ? 'bg-white text-habit-purple' : 'bg-white text-gray-500',
+      bg: isCompleted ? 'bg-gradient-to-br from-pastel-purple to-purple-50 dark:to-purple-950 border-habit-purple' : 'bg-gradient-to-br from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 border-gray-300 dark:border-gray-600 border-dashed',
+      text: isCompleted ? 'text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400',
+      status: isCompleted ? 'bg-habit-purple text-white' : 'bg-gray-300 dark:bg-gray-600 text-white',
+      statusBg: isCompleted ? 'bg-white dark:bg-card text-habit-purple' : 'bg-white dark:bg-card text-gray-500 dark:text-gray-400',
       holdRing: 'border-habit-purple'
     },
     'habit-indigo': {
-      bg: isCompleted ? 'bg-gradient-to-br from-pastel-indigo to-blue-50 border-habit-indigo' : 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-300 border-dashed',
-      text: isCompleted ? 'text-gray-800' : 'text-gray-600',
-      status: isCompleted ? 'bg-habit-indigo text-white' : 'bg-gray-300 text-white',
-      statusBg: isCompleted ? 'bg-white text-habit-indigo' : 'bg-white text-gray-500',
+      bg: isCompleted ? 'bg-gradient-to-br from-pastel-indigo to-blue-50 dark:to-blue-950 border-habit-indigo' : 'bg-gradient-to-br from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 border-gray-300 dark:border-gray-600 border-dashed',
+      text: isCompleted ? 'text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400',
+      status: isCompleted ? 'bg-habit-indigo text-white' : 'bg-gray-300 dark:bg-gray-600 text-white',
+      statusBg: isCompleted ? 'bg-white dark:bg-card text-habit-indigo' : 'bg-white dark:bg-card text-gray-500 dark:text-gray-400',
       holdRing: 'border-habit-indigo'
     },
     'habit-emerald': {
-      bg: isCompleted ? 'bg-gradient-to-br from-pastel-emerald to-green-50 border-habit-emerald' : 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-300 border-dashed',
-      text: isCompleted ? 'text-gray-800' : 'text-gray-600',
-      status: isCompleted ? 'bg-habit-emerald text-white' : 'bg-gray-300 text-white',
-      statusBg: isCompleted ? 'bg-white text-habit-emerald' : 'bg-white text-gray-500',
+      bg: isCompleted ? 'bg-gradient-to-br from-pastel-emerald to-green-50 dark:to-green-950 border-habit-emerald' : 'bg-gradient-to-br from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 border-gray-300 dark:border-gray-600 border-dashed',
+      text: isCompleted ? 'text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400',
+      status: isCompleted ? 'bg-habit-emerald text-white' : 'bg-gray-300 dark:bg-gray-600 text-white',
+      statusBg: isCompleted ? 'bg-white dark:bg-card text-habit-emerald' : 'bg-white dark:bg-card text-gray-500 dark:text-gray-400',
       holdRing: 'border-habit-emerald'
     },
     'habit-amber': {
-      bg: isCompleted ? 'bg-gradient-to-br from-pastel-amber to-yellow-50 border-habit-amber' : 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-300 border-dashed',
-      text: isCompleted ? 'text-gray-800' : 'text-gray-600',
-      status: isCompleted ? 'bg-habit-amber text-white' : 'bg-gray-300 text-white',
-      statusBg: isCompleted ? 'bg-white text-habit-amber' : 'bg-white text-gray-500',
+      bg: isCompleted ? 'bg-gradient-to-br from-pastel-amber to-yellow-50 dark:to-yellow-950 border-habit-amber' : 'bg-gradient-to-br from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 border-gray-300 dark:border-gray-600 border-dashed',
+      text: isCompleted ? 'text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400',
+      status: isCompleted ? 'bg-habit-amber text-white' : 'bg-gray-300 dark:bg-gray-600 text-white',
+      statusBg: isCompleted ? 'bg-white dark:bg-card text-habit-amber' : 'bg-white dark:bg-card text-gray-500 dark:text-gray-400',
       holdRing: 'border-habit-amber'
     }
   };
@@ -129,15 +129,15 @@ export function HabitBlock({
       return (
         <div className={`font-medium leading-relaxed ${classes.text}`}>
           I will{" "}
-          <span className="border-b-2 border-habit-indigo bg-white px-1 rounded">
+          <span className="border-b-2 border-habit-indigo bg-white dark:bg-card px-1 rounded">
             {habit.action}
           </span>{" "}
           at{" "}
-          <span className="border-b-2 border-habit-amber bg-white px-1 rounded">
+          <span className="border-b-2 border-habit-amber bg-white dark:bg-card px-1 rounded">
             {habit.time}
           </span>{" "}
           in{" "}
-          <span className="border-b-2 border-habit-emerald bg-white px-1 rounded">
+          <span className="border-b-2 border-habit-emerald bg-white dark:bg-card px-1 rounded">
             {habit.location}
           </span>.
         </div>
@@ -230,7 +230,7 @@ export function HabitBlock({
           <Button
             size="sm"
             variant="ghost"
-            className="absolute top-2 right-2 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500 z-30"
+            className="absolute top-2 right-2 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 z-30"
             onClick={onDelete}
           >
             <X size={14} />
@@ -250,7 +250,7 @@ export function HabitBlock({
         
         {/* Hold instruction */}
         {!isCompleted && (
-          <div className="mt-2 text-xs text-gray-500 opacity-60">
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 opacity-60">
             Hold to complete
           </div>
         )}

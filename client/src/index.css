@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);
   --muted: hsl(60, 4.8%, 95.9%);
@@ -24,26 +25,28 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Custom HabitFlow colors */
-  --habit-purple: hsl(267, 84%, 64%);
-  --habit-indigo: hsl(238, 84%, 67%);
-  --habit-emerald: hsl(158, 64%, 52%);
-  --habit-amber: hsl(43, 96%, 56%);
-  --habit-red: hsl(0, 84%, 60%);
-  --pastel-purple: hsl(270, 100%, 96%);
-  --pastel-indigo: hsl(235, 100%, 94%);
-  --pastel-emerald: hsl(149, 80%, 90%);
-  --pastel-amber: hsl(48, 96%, 89%);
+  /* Custom HabitFlow colors — HSL components so Tailwind utilities
+     (bg-habit-*, from-pastel-*, /opacity modifiers) can consume them */
+  --habit-purple: 267 84% 64%;
+  --habit-indigo: 238 84% 67%;
+  --habit-emerald: 158 64% 52%;
+  --habit-amber: 43 96% 56%;
+  --habit-red: 0 84% 60%;
+  --pastel-purple: 270 100% 96%;
+  --pastel-indigo: 235 100% 94%;
+  --pastel-emerald: 149 80% 90%;
+  --pastel-amber: 48 96% 89%;
 }
 
 .dark {
+  color-scheme: dark;
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);
   --muted: hsl(240, 3.7%, 15.9%);
   --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
+  --popover: hsl(240, 6%, 9%);
   --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
+  --card: hsl(240, 6%, 10%);
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
@@ -57,6 +60,13 @@
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(240, 4.9%, 83.9%);
   --radius: 0.5rem;
+
+  /* Custom HabitFlow colors — muted deep tints so completed habits keep their
+     color identity without glowing against dark surfaces */
+  --pastel-purple: 270 45% 20%;
+  --pastel-indigo: 235 45% 22%;
+  --pastel-emerald: 150 45% 15%;
+  --pastel-amber: 45 55% 16%;
 }
 
 @layer base {
@@ -65,7 +75,7 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gray-50 text-foreground;
+    @apply font-sans antialiased bg-gray-50 dark:bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -73,83 +83,83 @@
 
 @layer components {
   .habit-purple {
-    color: var(--habit-purple);
+    color: hsl(var(--habit-purple));
   }
   
   .habit-indigo {
-    color: var(--habit-indigo);
+    color: hsl(var(--habit-indigo));
   }
   
   .habit-emerald {
-    color: var(--habit-emerald);
+    color: hsl(var(--habit-emerald));
   }
   
   .habit-amber {
-    color: var(--habit-amber);
+    color: hsl(var(--habit-amber));
   }
   
   .bg-habit-purple {
-    background-color: var(--habit-purple);
+    background-color: hsl(var(--habit-purple));
   }
   
   .bg-habit-indigo {
-    background-color: var(--habit-indigo);
+    background-color: hsl(var(--habit-indigo));
   }
   
   .bg-habit-emerald {
-    background-color: var(--habit-emerald);
+    background-color: hsl(var(--habit-emerald));
   }
   
   .bg-habit-amber {
-    background-color: var(--habit-amber);
+    background-color: hsl(var(--habit-amber));
   }
   
   .bg-pastel-purple {
-    background-color: var(--pastel-purple);
+    background-color: hsl(var(--pastel-purple));
   }
   
   .bg-pastel-indigo {
-    background-color: var(--pastel-indigo);
+    background-color: hsl(var(--pastel-indigo));
   }
   
   .bg-pastel-emerald {
-    background-color: var(--pastel-emerald);
+    background-color: hsl(var(--pastel-emerald));
   }
   
   .bg-pastel-amber {
-    background-color: var(--pastel-amber);
+    background-color: hsl(var(--pastel-amber));
   }
   
   .border-habit-purple {
-    border-color: var(--habit-purple);
+    border-color: hsl(var(--habit-purple));
   }
   
   .border-habit-indigo {
-    border-color: var(--habit-indigo);
+    border-color: hsl(var(--habit-indigo));
   }
   
   .border-habit-emerald {
-    border-color: var(--habit-emerald);
+    border-color: hsl(var(--habit-emerald));
   }
   
   .border-habit-amber {
-    border-color: var(--habit-amber);
+    border-color: hsl(var(--habit-amber));
   }
 
   .text-habit-purple {
-    color: var(--habit-purple);
+    color: hsl(var(--habit-purple));
   }
   
   .text-habit-indigo {
-    color: var(--habit-indigo);
+    color: hsl(var(--habit-indigo));
   }
   
   .text-habit-emerald {
-    color: var(--habit-emerald);
+    color: hsl(var(--habit-emerald));
   }
   
   .text-habit-amber {
-    color: var(--habit-amber);
+    color: hsl(var(--habit-amber));
   }
 }
 

@@ -144,14 +144,14 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
   return (
     <div className="space-y-6">
       <DialogHeader>
-        <DialogTitle className="text-2xl font-bold text-gray-900">
+        <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">
           Create Your Habit Stack
         </DialogTitle>
       </DialogHeader>
 
       {/* Stack Name */}
       <div>
-        <Label htmlFor="title" className="text-sm font-medium text-gray-700">
+        <Label htmlFor="title" className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Stack Name
         </Label>
         <Input
@@ -161,14 +161,14 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
           {...routineForm.register("title")}
         />
         {routineForm.formState.errors.title && (
-          <p className="text-red-500 text-sm mt-1">
+          <p className="text-red-500 dark:text-red-400 text-sm mt-1">
             {routineForm.formState.errors.title.message}
           </p>
         )}
       </div>
 
       <div>
-        <Label htmlFor="description" className="text-sm font-medium text-gray-700">
+        <Label htmlFor="description" className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Description (optional)
         </Label>
         <Input
@@ -182,7 +182,7 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
       {/* First Habit */}
       <div className="bg-gradient-to-r from-pastel-indigo to-pastel-purple p-6 rounded-xl">
         <div className="space-y-4">
-          <div className="text-lg text-gray-800 leading-relaxed">
+          <div className="text-lg text-gray-800 dark:text-gray-200 leading-relaxed">
             I will{" "}
             <Input
               placeholder="action"
@@ -203,7 +203,7 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
             />.
           </div>
           {initialHabitForm.formState.errors.action && (
-            <p className="text-red-500 text-sm">
+            <p className="text-red-500 dark:text-red-400 text-sm">
               {initialHabitForm.formState.errors.action.message}
             </p>
           )}
@@ -212,24 +212,24 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
 
       {/* Habit Stacking */}
       <div className="bg-gradient-to-r from-pastel-emerald to-pastel-amber p-6 rounded-xl">
-        <h4 className="text-lg font-semibold text-gray-900 mb-4">
+        <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">
           🔗 Stack Another Habit?
         </h4>
         <div className="space-y-4">
           {stackedHabits.map((habit, index) => (
-            <div key={index} className="bg-white p-4 rounded-lg border-l-4 border-habit-purple relative">
+            <div key={index} className="bg-white dark:bg-card p-4 rounded-lg border-l-4 border-habit-purple relative">
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                className="absolute top-2 right-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                 onClick={() => removeStackedHabit(index)}
               >
                 <X size={16} />
               </Button>
-              <div className="text-lg text-gray-800 leading-relaxed pr-8">
+              <div className="text-lg text-gray-800 dark:text-gray-200 leading-relaxed pr-8">
                 After I{" "}
-                <span className="px-3 py-1 bg-gray-100 border-b-2 border-habit-emerald rounded text-habit-emerald font-medium">
+                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 border-b-2 border-habit-emerald rounded text-habit-emerald font-medium">
                   {index === 0 
                     ? initialHabitForm.watch("action") || "previous habit"
                     : stackedHabits[index - 1]?.action || "previous habit"
@@ -277,7 +277,7 @@ export function HabitBuilder({ onClose }: HabitBuilderProps) {
           type="button"
           variant="ghost"
           onClick={() => onClose?.()}
-          className="text-gray-600 hover:text-gray-800 font-medium"
+          className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
         >
           Cancel
         </Button>

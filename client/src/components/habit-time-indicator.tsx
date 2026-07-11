@@ -76,7 +76,7 @@ export function HabitTimeIndicator({ time, isCompleted }: HabitTimeIndicatorProp
       text: time
     },
     scheduled: {
-      color: 'bg-gray-200 text-gray-700',
+      color: 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300',
       icon: Clock,
       text: time
     }

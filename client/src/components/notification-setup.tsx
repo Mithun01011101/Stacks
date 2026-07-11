@@ -40,12 +40,12 @@ export function NotificationSetup() {
 
   if (permission.denied) {
     return (
-      <div className="bg-gray-100 rounded-lg p-4 border border-gray-200">
+      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-800">
         <div className="flex items-center space-x-3">
-          <BellOff size={20} className="text-gray-500" />
+          <BellOff size={20} className="text-gray-500 dark:text-gray-400" />
           <div>
-            <h3 className="font-medium text-gray-900">Notifications Blocked</h3>
-            <p className="text-sm text-gray-600">Enable in your browser settings to get habit reminders</p>
+            <h3 className="font-medium text-gray-900 dark:text-gray-50">Notifications Blocked</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Enable in your browser settings to get habit reminders</p>
           </div>
         </div>
       </div>

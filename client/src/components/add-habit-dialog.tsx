@@ -96,7 +96,7 @@ export function AddHabitDialog({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-gray-900">
+          <DialogTitle className="text-xl font-bold text-gray-900 dark:text-gray-50">
             Add Habit to {routineTitle}
           </DialogTitle>
         </DialogHeader>
@@ -104,9 +104,9 @@ export function AddHabitDialog({
         <div className="space-y-6">
           {/* Habit Stacking Format */}
           <div className="bg-gradient-to-r from-pastel-emerald to-pastel-amber p-6 rounded-xl">
-            <div className="text-lg text-gray-800 leading-relaxed">
+            <div className="text-lg text-gray-800 dark:text-gray-200 leading-relaxed">
               After I{" "}
-              <span className="px-3 py-1 bg-gray-100 border-b-2 border-habit-emerald rounded text-habit-emerald font-medium">
+              <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 border-b-2 border-habit-emerald rounded text-habit-emerald font-medium">
                 {lastHabitAction}
               </span>, I will{" "}
               <Input
@@ -128,7 +128,7 @@ export function AddHabitDialog({
               />.
             </div>
             {habitForm.formState.errors.action && (
-              <p className="text-red-500 text-sm mt-4">
+              <p className="text-red-500 dark:text-red-400 text-sm mt-4">
                 {habitForm.formState.errors.action.message}
               </p>
             )}
@@ -140,7 +140,7 @@ export function AddHabitDialog({
               type="button"
               variant="ghost"
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 font-medium"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
             >
               Cancel
             </Button>

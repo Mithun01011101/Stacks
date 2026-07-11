@@ -137,7 +137,7 @@ export function HabitChain({ routine, onToggleCompletion, onDeleteHabit, onAddHa
               />
               
               {index < routine.habits.length - 1 && (
-                <div className="flex-shrink-0 text-gray-400">
+                <div className="flex-shrink-0 text-gray-400 dark:text-gray-500">
                   <ArrowRight size={20} />
                 </div>
               )}
@@ -148,15 +148,15 @@ export function HabitChain({ routine, onToggleCompletion, onDeleteHabit, onAddHa
         {/* Add habit button */}
         {onAddHabit && (
           <div className="flex items-center space-x-4">
-            <div className="flex-shrink-0 text-gray-400">
+            <div className="flex-shrink-0 text-gray-400 dark:text-gray-500">
               <ArrowRight size={20} />
             </div>
             <Button
               variant="ghost"
               onClick={() => onAddHabit(routine.id)}
-              className="flex-shrink-0 w-[280px] h-[120px] border-2 border-dashed border-gray-300 rounded-xl hover:border-habit-purple hover:bg-gray-50 transition-all duration-200 group"
+              className="flex-shrink-0 w-[280px] h-[120px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-habit-purple hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
             >
-              <div className="flex flex-col items-center space-y-2 text-gray-400 group-hover:text-habit-purple">
+              <div className="flex flex-col items-center space-y-2 text-gray-400 dark:text-gray-500 group-hover:text-habit-purple">
                 <Plus size={24} />
                 <span className="text-sm font-medium">Add Habit</span>
               </div>

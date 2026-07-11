@@ -39,10 +39,10 @@ export function StatsTab() {
     return (
       <div className="p-4 pb-20">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-1/2"></div>
           <div className="grid grid-cols-2 gap-4">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-24 bg-gray-200 rounded-xl"></div>
+              <div key={i} className="h-24 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
             ))}
           </div>
         </div>
@@ -58,8 +58,8 @@ export function StatsTab() {
     <div className="p-4 pb-20 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Your Progress</h1>
-        <p className="text-gray-600">Track your habit building journey</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Your Progress</h1>
+        <p className="text-gray-600 dark:text-gray-400">Track your habit building journey</p>
       </div>
 
       {/* Main Stats Grid */}
@@ -111,74 +111,74 @@ export function StatsTab() {
 
       {/* Additional Stats */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Detailed Analytics</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">Detailed Analytics</h2>
         
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
+        <div className="bg-white dark:bg-card rounded-xl p-4 border border-gray-200 dark:border-gray-800">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-medium text-gray-900">Overall Progress</h3>
+            <h3 className="font-medium text-gray-900 dark:text-gray-50">Overall Progress</h3>
             <Target className="text-habit-purple" size={20} />
           </div>
           <div className="flex items-center space-x-3">
-            <div className="flex-1 bg-gray-200 rounded-full h-2">
+            <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-habit-purple to-habit-indigo h-2 rounded-full transition-all duration-300"
                 style={{ width: `${overallProgress}%` }}
               ></div>
             </div>
-            <span className="text-sm font-medium text-gray-700">{overallProgress}%</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{overallProgress}%</span>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
             {totalProgress} of {totalHabits} total habits completed today
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white dark:bg-card rounded-xl p-4 border border-gray-200 dark:border-gray-800">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-900">Completed</h3>
+              <h3 className="font-medium text-gray-900 dark:text-gray-50">Completed</h3>
               <CheckCircle className="text-habit-emerald" size={20} />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stats?.totalCompleted || 0}</p>
-            <p className="text-xs text-gray-500">All-time habits</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{stats?.totalCompleted || 0}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">All-time habits</p>
           </div>
 
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white dark:bg-card rounded-xl p-4 border border-gray-200 dark:border-gray-800">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-900">Best Streak</h3>
+              <h3 className="font-medium text-gray-900 dark:text-gray-50">Best Streak</h3>
               <Calendar className="text-habit-amber" size={20} />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stats?.longestStreak || 0}</p>
-            <p className="text-xs text-gray-500">Days in a row</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{stats?.longestStreak || 0}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Days in a row</p>
           </div>
         </div>
       </div>
 
       {/* Routine Breakdown */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Stack Performance</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">Stack Performance</h2>
         
         {routines.map((routine) => (
-          <div key={routine.id} className="bg-white rounded-xl p-4 border border-gray-200">
+          <div key={routine.id} className="bg-white dark:bg-card rounded-xl p-4 border border-gray-200 dark:border-gray-800">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
                 <div className={`w-8 h-8 bg-gradient-to-br from-habit-purple to-habit-indigo rounded-lg flex items-center justify-center`}>
                   <i className={`${routine.icon} text-white text-sm`}></i>
                 </div>
-                <h3 className="font-medium text-gray-900">{routine.title}</h3>
+                <h3 className="font-medium text-gray-900 dark:text-gray-50">{routine.title}</h3>
               </div>
-              <span className="text-sm font-medium text-gray-600">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 {routine.progress.completed}/{routine.progress.total}
               </span>
             </div>
             
             <div className="flex items-center space-x-3">
-              <div className="flex-1 bg-gray-200 rounded-full h-2">
+              <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-2">
                 <div 
                   className="bg-gradient-to-r from-habit-emerald to-green-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${routine.progress.percentage}%` }}
                 ></div>
               </div>
-              <span className="text-sm font-medium text-gray-700">{routine.progress.percentage}%</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{routine.progress.percentage}%</span>
             </div>
           </div>
         ))}

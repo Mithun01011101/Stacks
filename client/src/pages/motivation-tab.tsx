@@ -105,8 +105,8 @@ export function MotivationTab() {
     <div className="p-4 pb-20 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Daily Inspiration</h1>
-        <p className="text-gray-600">Fuel your motivation and stay inspired</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Daily Inspiration</h1>
+        <p className="text-gray-600 dark:text-gray-400">Fuel your motivation and stay inspired</p>
       </div>
 
       {/* Quote of the Day */}
@@ -154,46 +154,46 @@ export function MotivationTab() {
 
       {/* Habit Building Principles */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">The 4 Laws of Behavior Change</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">The 4 Laws of Behavior Change</h2>
         
         <div className="space-y-3">
-          <div className="bg-white rounded-lg p-4 border-l-4 border-habit-indigo">
-            <h3 className="font-medium text-gray-900 mb-1">1. Make it Obvious</h3>
-            <p className="text-sm text-gray-600">Design your environment to make good habits visible and bad habits invisible.</p>
+          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-indigo">
+            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">1. Make it Obvious</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Design your environment to make good habits visible and bad habits invisible.</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 border-l-4 border-habit-purple">
-            <h3 className="font-medium text-gray-900 mb-1">2. Make it Attractive</h3>
-            <p className="text-sm text-gray-600">Bundle habits you need to do with habits you want to do.</p>
+          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-purple">
+            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">2. Make it Attractive</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Bundle habits you need to do with habits you want to do.</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 border-l-4 border-habit-emerald">
-            <h3 className="font-medium text-gray-900 mb-1">3. Make it Easy</h3>
-            <p className="text-sm text-gray-600">Start with the smallest version of your habit that feels easy.</p>
+          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-emerald">
+            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">3. Make it Easy</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Start with the smallest version of your habit that feels easy.</p>
           </div>
           
-          <div className="bg-white rounded-lg p-4 border-l-4 border-habit-amber">
-            <h3 className="font-medium text-gray-900 mb-1">4. Make it Satisfying</h3>
-            <p className="text-sm text-gray-600">Celebrate immediately after completing your habit.</p>
+          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-amber">
+            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">4. Make it Satisfying</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Celebrate immediately after completing your habit.</p>
           </div>
         </div>
       </div>
 
       {/* Quick Motivation Cards */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Quick Motivation</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">Quick Motivation</h2>
         
         <div className="grid grid-cols-1 gap-3">
-          <div className="bg-gradient-to-r from-pastel-purple to-purple-50 rounded-lg p-4 border border-habit-purple/20">
-            <p className="text-sm font-medium text-gray-800">Remember: You're not starting from zero. You're building on yesterday's progress.</p>
+          <div className="bg-gradient-to-r from-pastel-purple to-purple-50 dark:to-purple-950 rounded-lg p-4 border border-habit-purple/20">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Remember: You're not starting from zero. You're building on yesterday's progress.</p>
           </div>
           
-          <div className="bg-gradient-to-r from-pastel-emerald to-green-50 rounded-lg p-4 border border-habit-emerald/20">
-            <p className="text-sm font-medium text-gray-800">Every habit you complete is evidence of the person you're becoming.</p>
+          <div className="bg-gradient-to-r from-pastel-emerald to-green-50 dark:to-green-950 rounded-lg p-4 border border-habit-emerald/20">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Every habit you complete is evidence of the person you're becoming.</p>
           </div>
           
-          <div className="bg-gradient-to-r from-pastel-amber to-yellow-50 rounded-lg p-4 border border-habit-amber/20">
-            <p className="text-sm font-medium text-gray-800">Small habits compound into extraordinary results over time.</p>
+          <div className="bg-gradient-to-r from-pastel-amber to-yellow-50 dark:to-yellow-950 rounded-lg p-4 border border-habit-amber/20">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Small habits compound into extraordinary results over time.</p>
           </div>
         </div>
       </div>

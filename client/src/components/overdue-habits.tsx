@@ -84,21 +84,21 @@ export function OverdueHabits({ routines, onToggleCompletion }: OverdueHabitsPro
   };
 
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+    <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 rounded-xl p-4 mb-4">
       <div className="flex items-center space-x-2 mb-3">
-        <Clock className="text-blue-500" size={20} />
-        <h3 className="font-semibold text-blue-800">Ready to Continue</h3>
+        <Clock className="text-blue-500 dark:text-blue-400" size={20} />
+        <h3 className="font-semibold text-blue-800 dark:text-blue-200">Ready to Continue</h3>
       </div>
       
       <div className="space-y-2">
         {overdueHabits.slice(0, 3).map(({ habit, routine, minutesOverdue }) => (
-          <div key={`${routine.id}-${habit.id}`} className="bg-white rounded-lg p-3 border border-blue-100">
+          <div key={`${routine.id}-${habit.id}`} className="bg-white dark:bg-card rounded-lg p-3 border border-blue-100 dark:border-blue-900">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-2 mb-1">
-                  <span className="text-sm font-medium text-gray-900">{routine.title}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-50">{routine.title}</span>
                 </div>
-                <p className="text-sm text-gray-600 truncate">
+                <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
                   {habit.action} • {habit.time}
                 </p>
               </div>
@@ -116,7 +116,7 @@ export function OverdueHabits({ routines, onToggleCompletion }: OverdueHabitsPro
         ))}
         
         {overdueHabits.length > 3 && (
-          <p className="text-sm text-blue-600 text-center">
+          <p className="text-sm text-blue-600 dark:text-blue-300 text-center">
             +{overdueHabits.length - 3} more habits ready
           </p>
         )}

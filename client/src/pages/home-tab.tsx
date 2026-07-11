@@ -130,7 +130,7 @@ export function HomeTab() {
       <div className="p-4 space-y-4">
         <div className="animate-pulse space-y-4">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="h-48 bg-gray-200 rounded-xl"></div>
+            <div key={i} className="h-48 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -141,8 +141,8 @@ export function HomeTab() {
     <div className="p-4 pb-20 space-y-4">
       {/* Welcome */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome back!</h1>
-        <p className="text-gray-600">You're building momentum! Keep stacking those habits.</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Welcome back!</h1>
+        <p className="text-gray-600 dark:text-gray-400">You're building momentum! Keep stacking those habits.</p>
       </div>
 
       {/* Notification Setup */}
@@ -171,15 +171,15 @@ export function HomeTab() {
 
       {/* Habit Stacks */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Your Habit Stacks</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-50">Your Habit Stacks</h2>
         
         {routines.length === 0 ? (
           <div className="text-center py-8">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <CheckCircle className="text-gray-400" size={24} />
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="text-gray-400 dark:text-gray-500" size={24} />
             </div>
-            <h3 className="font-medium text-gray-900 mb-1">No habit stacks yet</h3>
-            <p className="text-gray-600 text-sm">
+            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">No habit stacks yet</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
               Tap "Create" to build your first habit stack!
             </p>
           </div>
