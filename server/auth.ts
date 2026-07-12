@@ -40,6 +40,12 @@ function loginPage(showError: boolean): string {
     width: 100%; max-width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     text-align: center;
   }
+  .logo {
+    width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #9C56F0, #6469F2);
+    box-shadow: 0 4px 18px rgba(156, 86, 240, 0.35);
+  }
   h1 { font-size: 28px; color: hsl(267, 84%, 44%); margin-bottom: 4px; }
   p { color: #666; font-size: 14px; margin-bottom: 24px; }
   input {
@@ -57,6 +63,13 @@ function loginPage(showError: boolean): string {
 </head>
 <body>
   <div class="card">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+        <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+      </svg>
+    </div>
     <h1>Stacks</h1>
     <p>Enter your password to continue</p>
     ${showError ? '<div class="error">Wrong password, try again.</div>' : ""}
