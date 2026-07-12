@@ -5,8 +5,24 @@ import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Layers, Plus } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileNav } from "@/components/mobile-nav";
 import { HomeTab } from "@/pages/home-tab";
@@ -17,10 +33,36 @@ import { HabitBuilder } from "@/pages/habit-builder";
 
 const TAB_ORDER = ["home", "stats", "ai-chat", "motivation"];
 
+/** Shared visual header for the Create popup (drawer + dialog variants). */
+function BuilderHeading({
+  Title,
+  Description,
+}: {
+  Title: typeof DrawerTitle | typeof DialogTitle;
+  Description: typeof DrawerDescription | typeof DialogDescription;
+}) {
+  return (
+    <div className="flex items-center gap-3 text-left">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-habit-purple to-habit-indigo shadow-glow-purple">
+        <Layers className="text-white" size={18} strokeWidth={2.5} />
+      </div>
+      <div>
+        <Title className="font-display text-lg font-bold tracking-tight text-gray-900 dark:text-gray-50">
+          Create a Habit Stack
+        </Title>
+        <Description className="text-sm text-gray-600 dark:text-gray-400">
+          Stack small habits into a powerful routine
+        </Description>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const previousTabIndex = useRef(0);
+  const isMobile = useIsMobile();
 
   const handleTabChange = (tab: string) => {
     previousTabIndex.current = TAB_ORDER.indexOf(activeTab);
@@ -50,7 +92,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <MotionConfig reducedMotion="user">
         <TooltipProvider>
-          <div className="min-h-screen bg-background">
+          <div data-vaul-drawer-wrapper className="min-h-screen bg-background">
             {/* Mobile App Header */}
             <header className="glass sticky top-0 z-40 border-b border-border/60">
               <div className="px-4 py-3">
@@ -66,20 +108,45 @@ function App() {
 
                   <div className="flex items-center space-x-2">
                     <ThemeToggle />
-                    <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          size="sm"
-                          className="rounded-full bg-gradient-to-r from-habit-purple to-habit-indigo px-4 font-semibold text-white shadow-glow-purple transition-all duration-200 hover:brightness-110 active:scale-95"
-                        >
-                          <Plus className="mr-1.5" size={16} />
-                          Create
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-[95vw] max-h-[90vh] overflow-y-auto">
-                        <HabitBuilder onClose={() => setIsCreateDialogOpen(false)} />
-                      </DialogContent>
-                    </Dialog>
+                    {isMobile ? (
+                      <Drawer open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                        <DrawerTrigger asChild>
+                          <Button
+                            size="sm"
+                            className="rounded-full bg-gradient-to-r from-habit-purple to-habit-indigo px-4 font-semibold text-white shadow-glow-purple transition-all duration-200 hover:brightness-110 active:scale-95"
+                          >
+                            <Plus className="mr-1.5" size={16} />
+                            Create
+                          </Button>
+                        </DrawerTrigger>
+                        <DrawerContent className="max-h-[94dvh] rounded-t-3xl border-border/60">
+                          <DrawerHeader className="px-5 pb-3 pt-2">
+                            <BuilderHeading Title={DrawerTitle} Description={DrawerDescription} />
+                          </DrawerHeader>
+                          <div className="overflow-y-auto px-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
+                            <HabitBuilder onClose={() => setIsCreateDialogOpen(false)} />
+                          </div>
+                        </DrawerContent>
+                      </Drawer>
+                    ) : (
+                      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            className="rounded-full bg-gradient-to-r from-habit-purple to-habit-indigo px-4 font-semibold text-white shadow-glow-purple transition-all duration-200 hover:brightness-110 active:scale-95"
+                          >
+                            <Plus className="mr-1.5" size={16} />
+                            Create
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto rounded-3xl border-border/60 sm:rounded-3xl">
+                          <DialogHeader>
+                            <BuilderHeading Title={DialogTitle} Description={DialogDescription} />
+                          </DialogHeader>
+                          <HabitBuilder onClose={() => setIsCreateDialogOpen(false)} />
+                        </DialogContent>
+                      </Dialog>
+                    )}
                   </div>
                 </div>
               </div>
