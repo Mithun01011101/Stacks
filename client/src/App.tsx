@@ -43,7 +43,7 @@ function App() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <div className="w-6 h-6 bg-gradient-to-br from-habit-purple to-habit-indigo rounded-lg"></div>
-                  <h1 className="text-lg font-bold text-gray-900 dark:text-gray-50">HabitFlow</h1>
+                  <h1 className="text-lg font-bold text-gray-900 dark:text-gray-50">Stacks</h1>
                 </div>
                 
                 <div className="flex items-center space-x-2">

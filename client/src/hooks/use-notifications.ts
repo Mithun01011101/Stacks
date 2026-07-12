@@ -146,9 +146,9 @@ export function useNotifications() {
     }, 0);
 
     if (incompleteHabits > 0) {
-      new Notification('HabitFlow Reminder', {
+      new Notification('Stacks Reminder', {
         body: `You have ${incompleteHabits} habits left to complete today!`,
-        icon: '/favicon.ico',
+        icon: '/icons/icon-192.png',
         tag: 'daily-reminder'
       });
     }
