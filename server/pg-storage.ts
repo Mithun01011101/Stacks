@@ -16,6 +16,7 @@ import {
   type RoutineWithHabits,
 } from "@shared/schema";
 import type { IStorage } from "./storage";
+import { calculateStreaks } from "./streaks";
 
 function requireDb() {
   if (!db) {
@@ -85,10 +86,29 @@ export class PgStorage implements IStorage {
   }
 
   async deleteRoutine(id: number): Promise<boolean> {
-    await this.db.delete(routineHabits).where(eq(routineHabits.routineId, id));
+    const unlinked = await this.db
+      .delete(routineHabits)
+      .where(eq(routineHabits.routineId, id))
+      .returning();
     await this.db.delete(habitCompletions).where(eq(habitCompletions.routineId, id));
     const deleted = await this.db.delete(routines).where(eq(routines.id, id)).returning();
+    await this.deleteOrphanedHabits(unlinked.map((rh) => rh.habitId));
     return deleted.length > 0;
+  }
+
+  // Drop habit rows that no longer belong to any routine so they don't
+  // linger invisibly and inflate the totalHabits stat.
+  private async deleteOrphanedHabits(habitIds: number[]): Promise<void> {
+    if (habitIds.length === 0) return;
+    const stillLinked = await this.db
+      .select({ habitId: routineHabits.habitId })
+      .from(routineHabits)
+      .where(inArray(routineHabits.habitId, habitIds));
+    const linkedIds = new Set(stillLinked.map((row) => row.habitId));
+    const orphanIds = habitIds.filter((id) => !linkedIds.has(id));
+    if (orphanIds.length > 0) {
+      await this.db.delete(habits).where(inArray(habits.id, orphanIds));
+    }
   }
 
   async addHabitToRoutine(insertRoutineHabit: InsertRoutineHabit): Promise<RoutineHabit> {
@@ -123,6 +143,9 @@ export class PgStorage implements IStorage {
       .delete(routineHabits)
       .where(and(eq(routineHabits.routineId, routineId), eq(routineHabits.habitId, habitId)))
       .returning();
+    if (deleted.length > 0) {
+      await this.deleteOrphanedHabits([habitId]);
+    }
     return deleted.length > 0;
   }
 
@@ -185,14 +208,17 @@ export class PgStorage implements IStorage {
     const todayProgress =
       totalRoutineHabits > 0 ? Math.round((todayCompleted / totalRoutineHabits) * 100) : 0;
 
+    const { currentStreak, longestStreak } = calculateStreaks(
+      allCompletions.filter((c) => c.completed).map((c) => c.date)
+    );
+
     return {
       totalHabits: allHabits.length,
       activeRoutines: allRoutines.length,
       todayProgress,
-      // Streaks are not tracked yet; mirrors JsonFileStorage behavior.
-      currentStreak: 0,
+      currentStreak,
       totalCompleted: allCompletions.filter((c) => c.completed).length,
-      longestStreak: 0,
+      longestStreak,
     };
   }
 }

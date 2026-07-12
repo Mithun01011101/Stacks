@@ -12,6 +12,7 @@ import {
 } from "@shared/schema";
 import { promises as fs } from "fs";
 import path from "path";
+import { calculateStreaks } from "./streaks";
 
 export interface IStorage {
   createHabit(habit: InsertHabit): Promise<Habit>;
@@ -205,6 +206,9 @@ export class JsonFileStorage implements IStorage {
     const index = data.routines.findIndex((r) => r.id === id);
     if (index === -1) return false;
 
+    const unlinkedHabitIds = data.routineHabits
+      .filter((rh) => rh.routineId === id)
+      .map((rh) => rh.habitId);
     data.routineHabits = data.routineHabits.filter(
       (rh) => rh.routineId !== id
     );
@@ -212,6 +216,12 @@ export class JsonFileStorage implements IStorage {
       (hc) => hc.routineId !== id
     );
     data.routines.splice(index, 1);
+    // Drop habit rows that no longer belong to any routine so they don't
+    // linger invisibly and inflate the totalHabits stat.
+    const stillLinked = new Set(data.routineHabits.map((rh) => rh.habitId));
+    data.habits = data.habits.filter(
+      (h) => !unlinkedHabitIds.includes(h.id) || stillLinked.has(h.id)
+    );
     await this.save();
     return true;
   }
@@ -251,6 +261,9 @@ export class JsonFileStorage implements IStorage {
     if (index === -1) return false;
 
     data.routineHabits.splice(index, 1);
+    if (!data.routineHabits.some((rh) => rh.habitId === habitId)) {
+      data.habits = data.habits.filter((h) => h.id !== habitId);
+    }
     await this.save();
     return true;
   }
@@ -315,14 +328,17 @@ export class JsonFileStorage implements IStorage {
         : 0;
 
     const totalCompleted = data.habitCompletions.filter((hc) => hc.completed).length;
+    const { currentStreak, longestStreak } = calculateStreaks(
+      data.habitCompletions.filter((hc) => hc.completed).map((hc) => hc.date)
+    );
 
     return {
       totalHabits: data.habits.length,
       activeRoutines: data.routines.length,
       todayProgress,
-      currentStreak: 0,
+      currentStreak,
       totalCompleted,
-      longestStreak: 0,
+      longestStreak,
     };
   }
 }
