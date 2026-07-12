@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { RefreshCw, Heart, Sparkles } from "lucide-react";
+import { RefreshCw, Quote, Sparkles } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 const motivationalQuotes = [
@@ -76,9 +77,43 @@ const habitTips = [
   "Use the 1% better rule daily"
 ];
 
+const fourLaws = [
+  {
+    number: 1,
+    title: "Make it Obvious",
+    body: "Design your environment to make good habits visible and bad habits invisible.",
+    chip: "bg-gradient-to-br from-habit-indigo to-blue-500",
+  },
+  {
+    number: 2,
+    title: "Make it Attractive",
+    body: "Bundle habits you need to do with habits you want to do.",
+    chip: "bg-gradient-to-br from-habit-purple to-indigo-500",
+  },
+  {
+    number: 3,
+    title: "Make it Easy",
+    body: "Start with the smallest version of your habit that feels easy.",
+    chip: "bg-gradient-to-br from-habit-emerald to-green-500",
+  },
+  {
+    number: 4,
+    title: "Make it Satisfying",
+    body: "Celebrate immediately after completing your habit.",
+    chip: "bg-gradient-to-br from-habit-amber to-orange-400",
+  },
+];
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export function MotivationTab() {
   const [currentQuote, setCurrentQuote] = useState(0);
   const [currentTip, setCurrentTip] = useState(0);
+  const [quoteSpin, setQuoteSpin] = useState(0);
+  const [tipSpin, setTipSpin] = useState(0);
 
   useEffect(() => {
     setCurrentQuote(Math.floor(Math.random() * motivationalQuotes.length));
@@ -91,6 +126,7 @@ export function MotivationTab() {
       newIndex = Math.floor(Math.random() * motivationalQuotes.length);
     } while (newIndex === currentQuote);
     setCurrentQuote(newIndex);
+    setQuoteSpin((s) => s + 360);
   };
 
   const getNewTip = () => {
@@ -99,104 +135,160 @@ export function MotivationTab() {
       newIndex = Math.floor(Math.random() * habitTips.length);
     } while (newIndex === currentTip);
     setCurrentTip(newIndex);
+    setTipSpin((s) => s + 360);
   };
 
   return (
-    <div className="p-4 pb-20 space-y-6">
+    <motion.div
+      className="p-4 pb-32 space-y-6"
+      initial="hidden"
+      animate="visible"
+      variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
+    >
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Daily Inspiration</h1>
+      <motion.div variants={sectionVariants}>
+        <h1 className="font-display text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-1">
+          Daily Inspiration
+        </h1>
         <p className="text-gray-600 dark:text-gray-400">Fuel your motivation and stay inspired</p>
-      </div>
+      </motion.div>
 
       {/* Quote of the Day */}
-      <div className="bg-gradient-to-br from-habit-purple to-habit-indigo rounded-xl p-6 text-white">
-        <div className="flex items-start justify-between mb-4">
-          <Heart className="text-white opacity-80" size={24} />
+      <motion.div
+        variants={sectionVariants}
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-habit-purple to-habit-indigo p-6 text-white shadow-glow-purple"
+      >
+        <div className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/10" />
+        <div className="relative mb-4 flex items-start justify-between">
+          <Quote className="text-white/70" size={26} fill="currentColor" />
           <Button
             variant="ghost"
             size="sm"
             onClick={getNewQuote}
-            className="text-white hover:bg-white/20 p-1"
+            aria-label="New quote"
+            className="h-11 w-11 rounded-full p-0 text-white hover:bg-white/20 hover:text-white"
           >
-            <RefreshCw size={16} />
+            <motion.span
+              animate={{ rotate: quoteSpin }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="inline-flex"
+            >
+              <RefreshCw size={16} />
+            </motion.span>
           </Button>
         </div>
-        
-        <blockquote className="text-lg font-medium leading-relaxed mb-4">
-          "{motivationalQuotes[currentQuote]?.quote}"
-        </blockquote>
-        
-        <cite className="text-sm opacity-80">
-          — {motivationalQuotes[currentQuote]?.author}
-        </cite>
-      </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuote}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="relative"
+          >
+            <blockquote className="mb-4 font-display text-lg font-semibold leading-relaxed">
+              "{motivationalQuotes[currentQuote]?.quote}"
+            </blockquote>
+            <cite className="text-sm not-italic text-white/80">
+              — {motivationalQuotes[currentQuote]?.author}
+            </cite>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
 
       {/* Daily Habit Tip */}
-      <div className="bg-gradient-to-br from-habit-emerald to-green-400 rounded-xl p-6 text-white">
-        <div className="flex items-start justify-between mb-4">
-          <Sparkles className="text-white opacity-80" size={24} />
+      <motion.div
+        variants={sectionVariants}
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-habit-emerald to-green-400 p-6 text-white"
+      >
+        <div className="pointer-events-none absolute -left-8 -bottom-10 h-32 w-32 rounded-full bg-white/10" />
+        <div className="relative mb-4 flex items-start justify-between">
+          <Sparkles className="text-white/80" size={24} />
           <Button
             variant="ghost"
             size="sm"
             onClick={getNewTip}
-            className="text-white hover:bg-white/20 p-1"
+            aria-label="New tip"
+            className="h-11 w-11 rounded-full p-0 text-white hover:bg-white/20 hover:text-white"
           >
-            <RefreshCw size={16} />
+            <motion.span
+              animate={{ rotate: tipSpin }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="inline-flex"
+            >
+              <RefreshCw size={16} />
+            </motion.span>
           </Button>
         </div>
-        
-        <h3 className="text-lg font-semibold mb-2">Today's Habit Tip</h3>
-        <p className="text-base leading-relaxed">
-          {habitTips[currentTip]}
-        </p>
-      </div>
+
+        <h3 className="font-display relative mb-2 text-lg font-bold">Today's Habit Tip</h3>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={currentTip}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="relative text-base leading-relaxed"
+          >
+            {habitTips[currentTip]}
+          </motion.p>
+        </AnimatePresence>
+      </motion.div>
 
       {/* Habit Building Principles */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">The 4 Laws of Behavior Change</h2>
-        
+      <motion.div variants={sectionVariants} className="space-y-4">
+        <h2 className="font-display text-lg font-bold tracking-tight text-gray-900 dark:text-gray-50">
+          The 4 Laws of Behavior Change
+        </h2>
+
         <div className="space-y-3">
-          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-indigo">
-            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">1. Make it Obvious</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Design your environment to make good habits visible and bad habits invisible.</p>
-          </div>
-          
-          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-purple">
-            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">2. Make it Attractive</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Bundle habits you need to do with habits you want to do.</p>
-          </div>
-          
-          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-emerald">
-            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">3. Make it Easy</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Start with the smallest version of your habit that feels easy.</p>
-          </div>
-          
-          <div className="bg-white dark:bg-card rounded-lg p-4 border-l-4 border-habit-amber">
-            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">4. Make it Satisfying</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Celebrate immediately after completing your habit.</p>
-          </div>
+          {fourLaws.map((law) => (
+            <div
+              key={law.number}
+              className="flex items-start gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-soft"
+            >
+              <div
+                className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white ${law.chip}`}
+              >
+                {law.number}
+              </div>
+              <div>
+                <h3 className="mb-0.5 font-semibold text-gray-900 dark:text-gray-50">{law.title}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{law.body}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Quick Motivation Cards */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">Quick Motivation</h2>
-        
+      <motion.div variants={sectionVariants} className="space-y-4">
+        <h2 className="font-display text-lg font-bold tracking-tight text-gray-900 dark:text-gray-50">
+          Quick Motivation
+        </h2>
+
         <div className="grid grid-cols-1 gap-3">
-          <div className="bg-gradient-to-r from-pastel-purple to-purple-50 dark:to-purple-950 rounded-lg p-4 border border-habit-purple/20">
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Remember: You're not starting from zero. You're building on yesterday's progress.</p>
+          <div className="rounded-2xl border border-habit-purple/20 bg-gradient-to-r from-pastel-purple to-purple-50 p-4 dark:to-purple-950">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              Remember: You're not starting from zero. You're building on yesterday's progress.
+            </p>
           </div>
-          
-          <div className="bg-gradient-to-r from-pastel-emerald to-green-50 dark:to-green-950 rounded-lg p-4 border border-habit-emerald/20">
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Every habit you complete is evidence of the person you're becoming.</p>
+
+          <div className="rounded-2xl border border-habit-emerald/20 bg-gradient-to-r from-pastel-emerald to-green-50 p-4 dark:to-green-950">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              Every habit you complete is evidence of the person you're becoming.
+            </p>
           </div>
-          
-          <div className="bg-gradient-to-r from-pastel-amber to-yellow-50 dark:to-yellow-950 rounded-lg p-4 border border-habit-amber/20">
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Small habits compound into extraordinary results over time.</p>
+
+          <div className="rounded-2xl border border-habit-amber/20 bg-gradient-to-r from-pastel-amber to-yellow-50 p-4 dark:to-yellow-950">
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              Small habits compound into extraordinary results over time.
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

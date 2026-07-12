@@ -1,12 +1,27 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle } from "lucide-react";
+import { Sparkles, Flame } from "lucide-react";
+import { motion } from "framer-motion";
 import { RoutineCard } from "@/components/routine-card";
 import { NotificationSetup } from "@/components/notification-setup";
 import { OverdueHabits } from "@/components/overdue-habits";
 import { AddHabitDialog } from "@/components/add-habit-dialog";
+import { ProgressRing } from "@/components/progress-ring";
+import { AnimatedNumber } from "@/components/animated-number";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
 
 export function HomeTab() {
   const { toast } = useToast();
@@ -28,6 +43,11 @@ export function HomeTab() {
     queryFn: () => api.getRoutines(),
   });
 
+  const { data: stats } = useQuery({
+    queryKey: ["/api/stats"],
+    queryFn: () => api.getStats(),
+  });
+
   const toggleCompletionMutation = useMutation({
     mutationFn: (data: { habitId: number; routineId: number }) => {
       const today = new Date().toISOString().split('T')[0];
@@ -39,16 +59,16 @@ export function HomeTab() {
       });
     },
     onSuccess: (completion) => {
-      const message = completion.completed 
-        ? "Great job! Habit completed" 
+      const message = completion.completed
+        ? "Great job! Habit completed"
         : "Habit marked as incomplete";
-      
+
       toast({
         title: completion.completed ? "Success!" : "Updated",
         description: message,
         duration: 2000,
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ["/api/routines"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
     },
@@ -89,7 +109,7 @@ export function HomeTab() {
   };
 
   const deleteHabitMutation = useMutation({
-    mutationFn: ({ habitId, routineId }: { habitId: number; routineId: number }) => 
+    mutationFn: ({ habitId, routineId }: { habitId: number; routineId: number }) =>
       api.deleteHabit(habitId, routineId),
     onSuccess: () => {
       toast({
@@ -128,59 +148,108 @@ export function HomeTab() {
   if (routinesLoading) {
     return (
       <div className="p-4 space-y-4">
-        <div className="animate-pulse space-y-4">
+        <div className="space-y-4">
+          <div className="h-8 w-1/2 rounded-xl animate-shimmer"></div>
+          <div className="h-32 rounded-3xl animate-shimmer"></div>
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="h-48 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+            <div key={i} className="h-48 rounded-3xl animate-shimmer"></div>
           ))}
         </div>
       </div>
     );
   }
 
+  const completedToday = routines.reduce((acc, r) => acc + r.progress.completed, 0);
+  const totalToday = routines.reduce((acc, r) => acc + r.progress.total, 0);
+  const todayPercentage = totalToday > 0 ? Math.round((completedToday / totalToday) * 100) : 0;
+  const currentStreak = stats?.currentStreak ?? 0;
+  const todayLabel = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <div className="p-4 pb-20 space-y-4">
+    <motion.div
+      className="p-4 pb-32 space-y-4"
+      initial="hidden"
+      animate="visible"
+      variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
+    >
       {/* Welcome */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Welcome back!</h1>
-        <p className="text-gray-600 dark:text-gray-400">You're building momentum! Keep stacking those habits.</p>
-      </div>
+      <motion.div variants={sectionVariants} className="mb-6">
+        <p className="mb-1 text-sm font-medium text-muted-foreground">{todayLabel}</p>
+        <h1 className="font-display text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
+          {getGreeting()}!
+        </h1>
+        <p className="mt-1 text-gray-600 dark:text-gray-400">
+          You're building momentum — keep stacking those habits.
+        </p>
+      </motion.div>
+
+      {/* Today's Progress hero */}
+      <motion.div
+        variants={sectionVariants}
+        className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-habit-purple via-habit-purple to-habit-indigo p-5 text-white shadow-glow-purple"
+      >
+        {/* decorative highlights */}
+        <div className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-12 right-16 h-28 w-28 rounded-full bg-white/5" />
+
+        <div className="relative flex items-center justify-between gap-4">
+          <div>
+            <h3 className="font-display text-lg font-bold">Today's Progress</h3>
+            <p className="mt-0.5 text-sm text-white/85">
+              <AnimatedNumber value={completedToday} /> of {totalToday} habits completed
+            </p>
+            {currentStreak > 0 && (
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-sm font-semibold">
+                <Flame size={14} className="text-habit-amber" fill="currentColor" />
+                <AnimatedNumber value={currentStreak} suffix={` day streak`} />
+              </div>
+            )}
+          </div>
+          <ProgressRing
+            percentage={todayPercentage}
+            size={76}
+            strokeWidth={7}
+            color="white"
+            trackColor="rgba(255,255,255,0.25)"
+          >
+            <span className="text-sm font-bold tabular-nums">{todayPercentage}%</span>
+          </ProgressRing>
+        </div>
+      </motion.div>
 
       {/* Notification Setup */}
-      <div className="mb-4">
+      <motion.div variants={sectionVariants} className="mb-4">
         <NotificationSetup />
-      </div>
+      </motion.div>
 
       {/* Overdue Habits */}
-      <OverdueHabits 
-        routines={routines} 
-        onToggleCompletion={handleToggleCompletion} 
-      />
-
-      {/* Today's Progress Summary */}
-      <div className="bg-gradient-to-r from-habit-purple to-habit-indigo rounded-xl p-4 text-white mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="font-semibold">Today's Progress</h3>
-            <p className="text-sm opacity-90">
-              {routines.reduce((acc, r) => acc + r.progress.completed, 0)} of {routines.reduce((acc, r) => acc + r.progress.total, 0)} habits completed
-            </p>
-          </div>
-          <CheckCircle size={24} />
-        </div>
-      </div>
+      <motion.div variants={sectionVariants}>
+        <OverdueHabits
+          routines={routines}
+          onToggleCompletion={handleToggleCompletion}
+        />
+      </motion.div>
 
       {/* Habit Stacks */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-50">Your Habit Stacks</h2>
-        
+      <motion.div variants={sectionVariants} className="space-y-4">
+        <h2 className="font-display text-xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+          Your Habit Stacks
+        </h2>
+
         {routines.length === 0 ? (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-3">
-              <CheckCircle className="text-gray-400 dark:text-gray-500" size={24} />
+          <div className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-10 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-habit-purple to-habit-indigo shadow-glow-purple">
+              <Sparkles className="text-white" size={26} />
             </div>
-            <h3 className="font-medium text-gray-900 dark:text-gray-50 mb-1">No habit stacks yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Tap "Create" to build your first habit stack!
+            <h3 className="font-display mb-1 font-bold text-gray-900 dark:text-gray-50">
+              No habit stacks yet
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Tap "Create" above to build your first habit stack!
             </p>
           </div>
         ) : (
@@ -203,8 +272,8 @@ export function HomeTab() {
             ))}
           </div>
         )}
-      </div>
-      
+      </motion.div>
+
       {/* Add Habit Dialog */}
       <AddHabitDialog
         routineId={addHabitDialog.routineId}
@@ -213,6 +282,6 @@ export function HomeTab() {
         isOpen={addHabitDialog.isOpen}
         onClose={() => setAddHabitDialog(prev => ({ ...prev, isOpen: false }))}
       />
-    </div>
+    </motion.div>
   );
 }

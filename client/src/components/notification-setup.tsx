@@ -26,12 +26,14 @@ export function NotificationSetup() {
 
   if (permission.granted) {
     return (
-      <div className="bg-gradient-to-r from-habit-emerald to-green-400 rounded-lg p-4 text-white">
+      <div className="rounded-2xl bg-gradient-to-r from-habit-emerald to-green-400 p-4 text-white shadow-soft">
         <div className="flex items-center space-x-3">
-          <Bell size={20} />
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/15">
+            <Bell size={18} />
+          </div>
           <div>
-            <h3 className="font-medium">Notifications Active</h3>
-            <p className="text-sm opacity-90">You'll get reminders when it's time for your habits</p>
+            <h3 className="font-semibold">Notifications Active</h3>
+            <p className="text-sm text-white/85">You'll get reminders when it's time for your habits</p>
           </div>
         </div>
       </div>
@@ -40,11 +42,13 @@ export function NotificationSetup() {
 
   if (permission.denied) {
     return (
-      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-800">
+      <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-soft">
         <div className="flex items-center space-x-3">
-          <BellOff size={20} className="text-gray-500 dark:text-gray-400" />
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-muted">
+            <BellOff size={18} className="text-gray-500 dark:text-gray-400" />
+          </div>
           <div>
-            <h3 className="font-medium text-gray-900 dark:text-gray-50">Notifications Blocked</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-gray-50">Notifications Blocked</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">Enable in your browser settings to get habit reminders</p>
           </div>
         </div>
@@ -53,19 +57,21 @@ export function NotificationSetup() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-habit-amber to-orange-400 rounded-lg p-4 text-white">
-      <div className="flex items-center justify-between">
+    <div className="rounded-2xl bg-gradient-to-r from-habit-amber to-orange-400 p-4 text-white shadow-soft">
+      <div className="flex items-center justify-between gap-3">
         <div className="flex items-center space-x-3">
-          <Bell size={20} />
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/15">
+            <Bell size={18} />
+          </div>
           <div>
-            <h3 className="font-medium">Get Habit Reminders</h3>
-            <p className="text-sm opacity-90">Never miss a habit with mobile notifications</p>
+            <h3 className="font-semibold">Get Habit Reminders</h3>
+            <p className="text-sm text-white/85">Never miss a habit with mobile notifications</p>
           </div>
         </div>
         <Button
           onClick={handleEnableNotifications}
           variant="ghost"
-          className="text-white border-white hover:bg-white/20"
+          className="rounded-full border border-white/40 bg-white/10 text-white hover:bg-white/25 hover:text-white active:scale-95"
         >
           Enable
         </Button>

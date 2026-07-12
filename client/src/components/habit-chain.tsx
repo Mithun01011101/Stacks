@@ -154,7 +154,7 @@ export function HabitChain({ routine, onToggleCompletion, onDeleteHabit, onAddHa
             <Button
               variant="ghost"
               onClick={() => onAddHabit(routine.id)}
-              className="flex-shrink-0 w-[280px] h-[120px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-habit-purple hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
+              className="flex-shrink-0 w-[280px] h-[120px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl hover:border-habit-purple hover:bg-pastel-purple/40 dark:hover:bg-pastel-purple/30 transition-all duration-200 group active:scale-[0.98]"
             >
               <div className="flex flex-col items-center space-y-2 text-gray-400 dark:text-gray-500 group-hover:text-habit-purple">
                 <Plus size={24} />

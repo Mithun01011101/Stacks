@@ -84,29 +84,29 @@ export function OverdueHabits({ routines, onToggleCompletion }: OverdueHabitsPro
   };
 
   return (
-    <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 rounded-xl p-4 mb-4">
-      <div className="flex items-center space-x-2 mb-3">
-        <Clock className="text-blue-500 dark:text-blue-400" size={20} />
-        <h3 className="font-semibold text-blue-800 dark:text-blue-200">Ready to Continue</h3>
+    <div className="mb-4 rounded-2xl border border-pastel-indigo bg-pastel-indigo/50 p-4 dark:border-habit-indigo/30 dark:bg-pastel-indigo/40">
+      <div className="mb-3 flex items-center space-x-2">
+        <Clock className="text-habit-indigo" size={20} />
+        <h3 className="font-display font-bold text-gray-900 dark:text-gray-50">Ready to Continue</h3>
       </div>
-      
+
       <div className="space-y-2">
         {overdueHabits.slice(0, 3).map(({ habit, routine, minutesOverdue }) => (
-          <div key={`${routine.id}-${habit.id}`} className="bg-white dark:bg-card rounded-lg p-3 border border-blue-100 dark:border-blue-900">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-1">
+          <div key={`${routine.id}-${habit.id}`} className="rounded-xl border border-border/60 bg-card p-3 shadow-soft">
+            <div className="flex items-center justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center space-x-2">
                   <span className="text-sm font-medium text-gray-900 dark:text-gray-50">{routine.title}</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                <p className="truncate text-sm text-gray-600 dark:text-gray-400">
                   {habit.action} • {habit.time}
                 </p>
               </div>
-              
+
               <Button
                 size="sm"
                 onClick={() => onToggleCompletion(habit.id, routine.id)}
-                className="bg-habit-purple hover:bg-habit-indigo text-white"
+                className="flex-shrink-0 rounded-full bg-habit-purple text-white hover:bg-habit-indigo active:scale-95"
               >
                 <Clock size={14} className="mr-1" />
                 Complete
@@ -114,9 +114,9 @@ export function OverdueHabits({ routines, onToggleCompletion }: OverdueHabitsPro
             </div>
           </div>
         ))}
-        
+
         {overdueHabits.length > 3 && (
-          <p className="text-sm text-blue-600 dark:text-blue-300 text-center">
+          <p className="text-center text-sm text-habit-indigo dark:text-indigo-300">
             +{overdueHabits.length - 3} more habits ready
           </p>
         )}
