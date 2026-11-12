@@ -1,139 +1,103 @@
-# HabitFlow - Personal Habit Tracking App
+# Stacks
 
-A mobile-first habit tracking application that helps you build consistent habits through intelligent design and habit stacking methodology.
+A habit-stacking app for your phone. Each habit is written as an implementation
+intention ("I will [action] at [time] in [location]"), and habits are chained into
+stacks ("After I [current habit], I will [new habit]"), the two techniques from
+*Atomic Habits*. Hold a habit to complete it, keep your streak going, and ask the AI
+coach when you get stuck.
+
+It started as a Replit prototype called HabitFlow and was rebuilt for everyday use:
+Postgres storage, a password-protected login, an app you can install on Android and
+iPhone, and a deployment on Render.
 
 ## Features
 
-- **Habit Stacking**: Chain habits together using implementation intentions
-- **Hold-to-Complete**: Intuitive tap-and-hold completion with visual feedback
-- **Drag Scrolling**: Smooth horizontal scrolling through habit chains
-- **Mobile Optimized**: Designed for mobile-first experience
-- **Visual Progress**: Real-time progress tracking with ripple animations
-- **Statistics Dashboard**: Track streaks, completion rates, and progress
+- **Home:** your stacks as chains of habits. Hold a habit for 0.8 seconds to complete
+  it; a progress indicator fills while you hold. Finishing every habit in a stack sets
+  off a confetti burst, and habits whose time has passed are flagged as overdue.
+- **Stats:** today's progress, current and best streak, total habits, active stacks,
+  overall progress, and a one-tap JSON backup of all your data.
+- **AI Coach:** chat about your habits with GPT-4o, guided by *Atomic Habits*
+  principles. Without an OpenAI key, or when the quota runs out, it answers with
+  built-in advice instead of failing.
+- **Inspire:** a daily habit tip and motivation.
+- **Reminders:** optional browser notifications at each habit's set time while the app
+  is open.
+- **Installable:** a web app manifest and icons, so it opens full screen from the home
+  screen. Light and dark themes.
 
-## Quick Start
+## How streaks work
 
-### Prerequisites
-- Node.js 18+ installed on your computer
-- PostgreSQL database (optional - can use in-memory storage)
+A day counts when at least one habit is completed. The current streak runs back from
+today, or from yesterday if nothing is done yet today, so an unfinished day never
+breaks it, but a missed day does. The best streak is the longest run so far. Days are
+counted by UTC date.
 
-### Installation
+## Built with
 
-1. **Download and extract** the HabitFlow files to your computer
+- **Front end:** React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui (Radix),
+  TanStack Query, Framer Motion
+- **Back end:** Node.js 20, Express, Drizzle ORM, Neon Postgres, express-session with
+  connect-pg-simple, OpenAI SDK
+- **Hosting:** a Render web service with a Neon Postgres database
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+## How it's put together
 
-3. **Set up environment** (optional for database):
-   ```bash
-   # Create .env file for database (optional)
-   echo "DATABASE_URL=postgresql://username:password@localhost:5432/habitflow" > .env
-   ```
-
-4. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-
-5. **Open your browser** to `http://localhost:5000`
-
-## Usage
-
-### Creating Habit Stacks
-1. Click "Create New Stack"
-2. Fill in your routine name and first habit
-3. Use the fill-in-the-blanks format: "I will [action] at [time] in [location]"
-4. Add additional habits to stack them together
-5. Save your routine
-
-### Completing Habits
-- **Hold down** on any habit block for 0.8 seconds to mark it complete
-- Watch the progress border trace around the habit block
-- See ripple animations for visual feedback
-
-### Managing Habits
-- **Delete habits**: Hover over habit blocks and click the X button
-- **Add to existing stacks**: Click the + button at the end of any habit chain
-- **Scroll through long chains**: Click and drag horizontally through habit stacks
-
-## Technical Details
-
-### Architecture
-- **Frontend**: React + TypeScript with Vite
-- **Backend**: Express.js with TypeScript
-- **Database**: PostgreSQL (with fallback to in-memory storage)
-- **Styling**: Tailwind CSS with custom animations
-- **State Management**: TanStack Query for server state
-
-### Project Structure
 ```
-├── client/          # Frontend React application
-│   ├── src/
-│   │   ├── components/  # Reusable UI components
-│   │   ├── pages/       # Application pages
-│   │   ├── hooks/       # Custom React hooks
-│   │   └── lib/         # Utilities and API client
-├── server/          # Backend Express server
-│   ├── index.ts     # Server entry point
-│   ├── routes.ts    # API route definitions
-│   ├── storage.ts   # Data storage layer
-│   └── db.ts        # Database connection
-├── shared/          # Shared types and schemas
-└── package.json     # Dependencies and scripts
+client/   React app: Home, Stats, AI Coach and Inspire tabs, components, hooks
+server/   Express REST API, storage, login, streaks, OpenAI client
+shared/   Drizzle tables and Zod schemas used by both sides
 ```
 
-### Database Setup (Optional)
+- **Storage switches on one setting.** With `DATABASE_URL` set, data lives in
+  Postgres through Drizzle (`server/pg-storage.ts`). Without it, data is saved to a
+  local `habits.json` file (`server/storage.ts`). Both implement the same `IStorage`
+  interface, so the rest of the app doesn't care which one is in use.
+- **Tables:** `routines` (the stacks), `habits`, `routine_habits` (each habit's place
+  and connector within a stack) and `habit_completions`.
+- **Accurate totals:** deleting a stack, or removing a habit from one, also deletes
+  habits that no longer belong to any stack, so they can't inflate the statistics.
+- **One shared password.** With `APP_PASSWORD` set, every page and API call needs a
+  login. Sessions are stored in Postgres and last 90 days. The login page, the app
+  manifest and the icons stay public so the app can still be installed. Without
+  `APP_PASSWORD` (local development) there is no login.
+- **REST API** under `/api`: routines, habits, completions, stats, export, chat and
+  habit suggestions (`server/routes.ts`).
 
-If you want persistent data storage:
+## Run it locally
 
-1. Install PostgreSQL on your system
-2. Create a database named `habitflow`
-3. Set the `DATABASE_URL` environment variable
-4. The app will automatically create the necessary tables
+Needs Node.js 20 or newer.
 
-Without a database, the app uses in-memory storage that resets when you restart the server.
+```bash
+npm install
+npm run dev        # http://localhost:5000
+```
 
-### Customization
+On Windows you can also double-click `Start Stacks.bat`.
 
-The app uses a custom color palette defined in `client/src/index.css`:
-- **Habit Purple**: Primary action color
-- **Habit Indigo**: Secondary accent
-- **Habit Emerald**: Success states
-- **Habit Amber**: Time/schedule indicators
+Optional settings go in a `.env` file:
 
-You can modify these colors by updating the CSS custom properties in the `:root` section.
+| Variable | What it does |
+|---|---|
+| `DATABASE_URL` | Postgres connection string. Without it, data is saved to `habits.json`. |
+| `OPENAI_API_KEY` | Turns on GPT-4o replies in the AI Coach. Without it, built-in advice is used. |
+| `APP_PASSWORD` | Turns on the login page. Leave it unset for local development. |
+| `SESSION_SECRET` | Signs the login cookie. Falls back to `APP_PASSWORD` if unset. |
 
-## Development
+Other scripts:
 
-### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
+- `npm run check`: TypeScript type check
+- `npm run build`, then `npm start`: production build and server
+- `npm run db:push`: create or update the database tables. drizzle-kit reads
+  `DATABASE_URL` from the shell, not from `.env`.
 
-### Adding New Features
-1. **Frontend components** go in `client/src/components/`
-2. **API endpoints** are defined in `server/routes.ts`
-3. **Database models** are in `shared/schema.ts`
-4. **Styling** uses Tailwind classes with custom utilities
+## Deploying
 
-## Troubleshooting
+`render.yaml` is a Render Blueprint for one web service. Render builds with
+`npm ci --include=dev && npm run build`, starts with `npm start`, and checks `/login`
+to confirm the app is up. Set `DATABASE_URL`, `OPENAI_API_KEY` and `APP_PASSWORD` in
+the Render dashboard; Render generates `SESSION_SECRET`. Every push to `main`
+redeploys.
 
-### Common Issues
-
-**Port already in use**: Change the port in `server/index.ts` if 5000 is occupied
-
-**Database connection issues**: Verify PostgreSQL is running and connection string is correct
-
-**Build errors**: Ensure Node.js version is 18 or higher
-
-**Mobile scrolling issues**: Clear browser cache and ensure touch events are enabled
-
-## License
-
-This project is for personal use. Feel free to modify and customize for your own habit tracking needs.
-
-## Support
-
-This is a personal habit tracking app. For technical issues, check the console logs in your browser's developer tools for detailed error messages.
+On Render's free plan the service sleeps when idle, so the first visit after a quiet
+spell takes 30 to 60 seconds.
